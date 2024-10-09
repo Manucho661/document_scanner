@@ -47,6 +47,8 @@
 
             <!-- Left side column. contains the logo and sidebar -->
             @include('layouts.sidebar')
+            
+
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
@@ -62,5 +64,7 @@
                 reserved.
             </footer>
         </div>
+        <script src="{{ mix('js/document.js') }}"></script>
+
     </body>
 </x-laravel-ui-adminlte::adminlte-layout>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,3 +31,6 @@ Route::resource('admin/employees', App\Http\Controllers\Admin\EmployeeController
         'create' => 'admin.employees.create',
         'edit' => 'admin.employees.edit'
     ]);
+
+    // documents
+    

@@ -4,27 +4,21 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
-use App\Models\Admin\Document; // Import the Document model
+use App\Models\Admin\Document;
 
-class AppServiceProvider extends ServiceProvider
+class ViewServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
+    public function boot()
     {
         // Share documents with all views
         View::composer('*', function ($view) {
             $documents = Document::all();
             $view->with('documents', $documents);
         });
+    }
+
+    public function register()
+    {
+        //
     }
 }

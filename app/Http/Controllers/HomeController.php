@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Admin\Document;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $documents = Document::all(); //
+        $latestDocument = Document::latest()->first();
+        return view('home', compact('latestDocument', 'documents'));
+    }
+
+    public function show($id){
+        
+        $document = Document::findOrFail($id);
+        // return redirect()->route('home')->with(compact('document'));
+         return view('home', compact('document'));
     }
 }

@@ -51,12 +51,17 @@ Route::resource('admin/employees', App\Http\Controllers\Admin\EmployeeController
 // ]);
 
 // Document Routes with Admin prefix
-// Route::resource('admin/documents', DocumentController::class)->names([
-//     'index' => 'admin.documents.index',
-//     'store' => 'admin.documents.store',
-//     'show' => 'admin.documents.show',
-//     'update' => 'admin.documents.update',
-//     'destroy' => 'admin.documents.destroy',
-//     'create' => 'admin.documents.create',
-//     'edit' => 'admin.documents.edit',
-// ]);
+ Route::resource('admin/documents', DocumentController::class)->names([
+    'index' => 'admin.documents.index',
+    'store' => 'admin.documents.store',
+    'show' => 'admin.documents.show',
+    'update' => 'admin.documents.update',
+    'destroy' => 'admin.documents.destroy',
+    'create' => 'admin.documents.create',
+    'edit' => 'admin.documents.edit',
+ ]);
+
+ //Documents
+ 
+Route::get('/showDocument/{id}', [DocumentController::class, 'show'])->name('showDocument');
+

@@ -16,360 +16,440 @@
   <style>
     /* Reset styles for basic consistency across browsers */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-}
-
-.app-header {
-  background-color: #e0e0e0;
-  padding: 10px 20px;
-  border-bottom: 1px solid #ccc;
-}
-
-.header-nav {
-  display: flex;
-  justify-content: space-between;
-}
-
-.nav-list {
-  list-style-type: none;
-  display: flex;
-  gap: 15px;
-}
-
-.nav-item {
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  padding: 5px 10px;
-}
-
-.nav-item:hover {
-  background-color: #dcdcdc;
-  border-radius: 4px;
-}
-
-.tools-section {
-    display: flex;
-    justify-content: space-around; /* Spread icons evenly */
-    align-items: center; /* Center the icons vertically */
-    padding: 10px;
-    background-color: #f7f7f7; /* Light background for visibility */
-    border-bottom: 1px solid #ddd; /* Optional: border for separation */
-}
-
-.tools-section button {
-    background-color: #fff; /* Button background */
-    border: 1px solid #ccc; /* Button border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px;
-    cursor: pointer; /* Cursor changes to pointer on hover */
-    transition: background-color 0.3s; /* Smooth background change on hover */
-}
-
-.tools-section button:hover {
-    background-color: #e0e0e0; /* Change background on hover */
-}
-
-.tools-section i {
-    font-size: 24px; /* Icon size */
-}
-
-.content-section {
-    display: flex; /* Use flexbox for layout */
-    margin-top: 20px; /* Space above the content section */
-}
-
-.batch-explorer {
-    width: 33.33%; /* 1/3 of the width */
-    padding: 10px;
-    background-color: #f7f7f7; /* Light background for visibility */
-    border-right: 1px solid #ddd; /* Optional: border for separation */
-}
-
-.batch-explorer h3 {
-    margin-top: 0; /* Remove default margin for headings */
-}
-
-.batch-explorer ul {
-    list-style: none; /* Remove bullets */
-    padding: 0; /* Remove padding */
-}
-
-.batch-explorer li {
-    padding: 5px 0; /* Space between items */
-    cursor: pointer; /* Indicate clickable items */
-}
-
-.batch-explorer li:hover {
-    background-color: #e0e0e0; /* Highlight on hover */
-}
-
-.image-viewer {
-    width: 66.67%; /* 2/3 of the width */
-    padding: 10px;
-}
-
-.image-viewer h3 {
-    margin-top: 0; /* Remove default margin for headings */
-}
-
-.image-preview {
-    display: flex; /* Flex layout for image preview section */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    height: 200px; /* Fixed height for consistency */
-    border: 1px dashed #ddd; /* Optional: border to indicate the area */
-    color: #999; /* Light gray text for empty state */
-    font-style: italic; /* Italic text for the message */
-}
-body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    header {
-        background-color: #f8f9fa;
-        padding: 10px;
-        border-bottom: 1px solid #ccc;
+
+    /* Body Styling */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f1f3f6;
+      color: #333;
     }
-    nav ul {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        gap: 20px;
+
+    /* Header Styles */
+    .app-header {
+      background: linear-gradient(135deg,#007bff  0%, #007bff 100%);
+      color: white;
+      padding: 15px 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
-    nav ul li {
-        cursor: pointer;
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
     }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-item {
+      cursor: pointer;
+      font-size: 16px;
+      padding: 8px 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+    }
+
+    /* Tool Section Styles */
+    .tools-section {
+      display: flex;
+      justify-content: space-around;
+      padding: 15px;
+      background-color: #fff;
+      border-bottom: 2px solid #eaeaea;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .tools-section button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    .tools-section button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(37, 117, 252, 0.4);
+    }
+
+    .tools-section i {
+      font-size: 20px;
+    }
+
+    /* Content Section Styling */
     .content-section {
-        display: flex;
-        flex-wrap: nowrap;
-        height: calc(100vh - 60px); /* Adjust height according to the header size */
-    }
-    /* Batch Explorer Styles */
-    #batchExplorer {
-        width: 250px;  /* Initial width */
-        min-width: 220px; /* Prevent shrinking below this width */
-        padding: 20px;
-        border-right: 2px solid #ddd;
-        height: 100%;
-        overflow-y: auto;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        background-color: #f4f4f4;
-        flex-shrink: 0;  /* Make sure it doesn't shrink beyond min-width */
-    }
-    #batchExplorer h3 {
-        font-size: 18px;
-        margin-bottom: 20px;
-        font-weight: bold;
-    }
-    #batchExplorer ul {
-        padding: 0;
-        list-style: none;
-    }
-    #batchExplorer ul li {
-        padding: 10px;
-        background-color: #fff;
-        margin-bottom: 10px;
-        cursor: pointer;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    #batchExplorer ul li:hover {
-        background-color: #ececec;
+      display: flex;
+      margin-top: 20px;
     }
 
-    /* PDF Viewer Styles */
+    .batch-explorer {
+      width: 250px;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+      border-right: 2px solid #ddd;
+    }
+
+    .batch-explorer h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .batch-explorer ul {
+      list-style: none;
+      padding: 0;
+    }
+    .thumbnailText{
+      margin: 20px;
+     
+    }
+
+    .batch-explorer li {
+      padding: 10px;
+      margin-bottom: 8px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .batch-explorer li:hover {
+      background-color: #2575fc;
+      color: white;
+    }
+
+    /* PDF Viewer Section */
     #pdfViewer {
-        display: flex;
-        flex-wrap: wrap;  /* Allow content to wrap into the next row */
-        justify-content: flex-start;  /* Align items from the start */
-        align-content: flex-start;  /* Pack rows tightly */
-        padding: 20px;
-        flex-grow: 1;  /* Allow the viewer to grow and take available space */
-        min-width: 400px; /* Prevent shrinking to unreadable size */
-        overflow-y: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding: 20px;
+      background-color: #fff;
+      flex-grow: 1;
     }
+
     .pdf-page {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin: 10px;
-        background-color: #f9f9f9;
-        flex-basis: calc(33% - 40px);  /* Responsive page size, takes up 33% of row minus margins */
-        box-sizing: border-box;
-        height: 400px; /* You can adjust this height as needed */
-        overflow: auto;
-    }
-    canvas {
-        max-height: 100%;
-        width: auto;
+      flex: 1 1 30%;
+      margin: 10px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-width: calc(33% - 20px);
     }
 
-    /* Thumbnail Styles */
+    /* Overlay styling */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .overlay-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .close-overlay {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #ff5f57;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    /* Thumbnail Styling */
     .thumbnail-viewer {
-        margin: 20px;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
     }
+
     .thumbnail {
-        margin: 5px;
-        border: 2px solid #ccc;
-        border-radius: 5px;
-        overflow: hidden;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin: 10px;
+      border: 2px solid #2575fc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
+
     .thumbnail img {
-        width: 120px;
-        height: auto;
+      width: 120px;
+      height: auto;
     }
 
-  </style>
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .batch-explorer {
+        width: 100%;
+      }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+      .pdf-page {
+        flex-basis: 100%; /* Make the pages take up full width on smaller screens */
+        max-width: 100%;
+      }
+     
+    } 
+    .tSection{
+        margin: 10px;
+       
+      }
+      .inputtext{
+        height: 30px;
+        /* flex: 1; */
+    border-radius: none; 
+     border: none;  
+     outline: none;
+    background: transparent;
+    padding: 10px;
+    border-radius: 15px;
+      }
+      #selectDocument {
+  width: 100%; /* Ensures full width to display the placeholder text */
+  height: 40px; /* Adjusts height to match other input fields */
+  border: 1px solid #ddd; /* Adds border for consistency */
+  border-radius: 15px; /* Rounded corners for aesthetics */
+  padding: 10px; /* Padding to ensure text isn't cut off */
+  background-color: white; /* Light background for readability */
+  font-size: 16px; /* Adequate font size for visibility */
+  color: #333; /* Text color */
+}
+#documentSelect {
+  width: 100%;
+  padding: 5px;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s;
+}
 
+#documentSelect:hover, #documentSelect:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+
+
+    </style>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 </head>
-<body>
-	<header class="app-header">
-		<nav class="header-nav">
-		  <ul class="nav-list">
-			<li class="nav-item">File</li>
-			<li class="nav-item">Batch</li>
-			<li class="nav-item">View</li>
-			<li class="nav-item">Capture</li>
-			<li class="nav-item">Document</li>
-			<li class="nav-item">Edit</li>
-			<li class="nav-item">Tools</li>
-			<li class="nav-item">Index</li>
-			<li class="nav-item">Help</li>
-		  </ul>
-		</nav>
-	</header>
-	
-	<div class="tools-section">
-		<button title="Preview"><i class="fas fa-eye"></i></button>
-		<button title="Print"><i class="fas fa-print"></i></button>
-		<button title="Edit"><i class="fas fa-edit"></i></button>
-		<button title="Zoom In"><i class="fas fa-search-plus"></i></button>
-		<button title="Zoom Out"><i class="fas fa-search-minus"></i></button>
-		<button title="Delete"><i class="fas fa-trash-alt"></i></button>
-		<button title="Convert to PDF"><i class="fas fa-file-pdf"></i></button>
-		<button id="uploadBtn" title="Upload"><i class="fas fa-upload"></i></button>
-		<button title="Download"><i class="fas fa-download"></i></button>
-		<button title="Save"><i class="fas fa-save"></i></button>
-		<button title="Share"><i class="fas fa-share-alt"></i></button>
-		<button title="Rotate"><i class="fas fa-sync-alt"></i></button>
-		<button title="Crop"><i class="fas fa-crop"></i></button>
-		<button title="Search"><i class="fas fa-search"></i></button>
-		<button title="Settings"><i class="fas fa-cog"></i></button>
-		<button title="OCR"><i class="fas fa-text-height"></i></button>
-		<button title="Annotations"><i class="fas fa-comment-dots"></i></button>
-	</div>
-	
-	<div class="content-section">
-		<div id="batchExplorer" class="batch-explorer">
-			<h3>Batch Explorer</h3>
-			<ul id="batchList">
-				<li>No pages available. Please upload a document.</li>
-			</ul>
-		</div>
+<header class="app-header">
+  <nav class="header-nav">
+    <ul class="nav-list">
+      <li class="nav-item">File</li>
+      <li class="nav-item">Batch</li>
+      <li class="nav-item">View</li>
+      <li class="nav-item">Capture</li>
+      <li class="nav-item">Document</li>
+      <li class="nav-item">Edit</li>
+      <li class="nav-item">Tools</li>
+      <li class="nav-item">Index</li>
+      <li class="nav-item">Help</li>
+    </ul>
+  </nav>
+</header>
 
-		
-		<div id="pdfViewer">
-			
-		</div>
-	
-	</div>
+<!-- Overlay for viewing specific page -->
+<div class="overlay" id="overlay">
+  <div class="overlay-content" id="overlayContent">
+      <button class="close-overlay" id="closeOverlay">X</button>
+      <canvas id="overlayCanvas"></canvas>
+  </div>
+</div>
 
-	<p class="mx-6">Thumbnail</p>
-	<div class="thumbnail-viewer" id="thumbnailViewer"></div>
-	
-	<script>
-	document.getElementById('uploadBtn').addEventListener('click', function() {
-		let input = document.createElement('input');
-		input.type = 'file';
-		input.accept = '.pdf'; // Adjust accepted file types as needed
-		input.onchange = event => {
-			let file = event.target.files[0];
-			if (file) {
-				displayDocument(file);
-			}
-		};
-		input.click();
-	});
-	
-	async function displayDocument(file) {
-		// Update Batch Explorer with the file name
-		let batchExplorer = document.getElementById('batchList');
-		batchExplorer.innerHTML = `<p>${file.name}</p>`;
-	
-		// Prepare PDF.js to render the uploaded PDF
-		const fileReader = new FileReader();
-		fileReader.onload = async function() {
-			const typedarray = new Uint8Array(this.result);
-			
-			const pdf = await pdfjsLib.getDocument(typedarray).promise;
-			const pdfViewer = document.getElementById('pdfViewer');
-			const thumbnailViewer = document.getElementById('thumbnailViewer');
-			pdfViewer.innerHTML = ""; // Clear previous content
-			thumbnailViewer.innerHTML = ""; // Clear previous thumbnails
-	
-			const numPages = pdf.numPages; // Get total number of pages
-	
-			// Loop through each page and render it
-			for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-				const page = await pdf.getPage(pageNum);
-				const viewport = page.getViewport({ scale: 1.5 });
-				
-				const canvas = document.createElement('canvas');
-				const context = canvas.getContext('2d');
-				canvas.height = viewport.height;
-				canvas.width = viewport.width;
-	
-				const columnDiv = document.createElement('div');
-				columnDiv.className = 'pdf-page';
-				columnDiv.appendChild(canvas);
-				pdfViewer.appendChild(columnDiv);
-	
-				// Render the page into the canvas context
-				await page.render({ canvasContext: context, viewport: viewport }).promise;
-	
-				// Resize canvas to fit within the fixed height
-				canvas.style.height = '100%';
-				canvas.style.width = 'auto';
-	
-				// Add to Batch Explorer
-				let listItem = document.createElement('li');
-				listItem.textContent = `Page ${pageNum}`;
-				batchExplorer.appendChild(listItem);
-	
-				// Create Thumbnail for each page
-				let thumbCanvas = document.createElement('canvas');
-				thumbCanvas.width = 120;
-				thumbCanvas.height = (canvas.height / canvas.width) * 120;
-				let thumbContext = thumbCanvas.getContext('2d');
-				thumbContext.drawImage(canvas, 0, 0, thumbCanvas.width, thumbCanvas.height);
-	
-				let thumbDiv = document.createElement('div');
-				thumbDiv.className = 'thumbnail';
-				thumbDiv.appendChild(thumbCanvas);
-				thumbnailViewer.appendChild(thumbDiv);
-			}
-		};
-		fileReader.readAsArrayBuffer(file);
-	}
-	</script>
-	
+<div class="tools-section tSection">
+  <label for="selectDocument">Select Document:</label>
+  <div class="select-container">
+    <select id="documentSelect" class="inputText">
+      <option disabled selected>Select</option>
+      @foreach ($documents as $document)
+        <option value="{{ route('showDocument', $document->id) }}">{{ $document->title }}</option>
+      @endforeach
+    </select>
+  </div>
+</div>
+
+<!-- Upload form -->
+<form action="{{route('admin.documents.store')}}" method="POST" enctype="multipart/form-data">
+  @csrf
+  <div class="tools-section">
+    <input type="file" name="document" id="document" accept=".pdf" required>
+    <input type="text" class="inputtext" name="title" placeholder="Enter Title to Upload" required>
+    <button type="submit" title="Upload">Upload</button>
+  </div>
+</form>
 
 
+
+<div class="content-section">
+  <div id="batchExplorer" class="batch-explorer">
+    <h3>Batch Explorer</h3>
+    <ul id="batchList">
+      <li> Document Pages</li>
+    </ul>
+  </div>
+  
+  <div id="pdfViewer">
+    <!-- PDF pages will be rendered here -->
+  </div>
+</div>
+
+  <div class="thumbnailText">  <b> <i>  <p class="mx-6">Thumbnail</p> </i> </b></div>
+<div class="thumbnail-viewer" id="thumbnailViewer"></div>
+
+@if(isset($latestDocument))
+    <script>
+        const DocumentUrl = "{{ asset('storage/' . $latestDocument->file_path) }}";
+    </script>
+    {{-- @elseif(isset($Document)) --}}
+    {{-- <script> --}}
+        {{-- const DocumentUrl = "{{ asset('storage/' . $Document->file_path) }}"; --}}
+    {{-- </script> --}}
+@else
+    <script>
+        // console.log('No document available');
+        const DocumentUrl = "{{ asset('storage/' . $document->file_path) }}";
+    </script>
+@endif
+<!-- JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  if (typeof DocumentUrl !== 'undefined') {
+    // Fetch and display the latest document
+    fetchDocument(DocumentUrl);
+  }
+});
+
+async function fetchDocument(url) {
+  const response = await fetch(url);
+  const arrayBuffer = await response.arrayBuffer();
+  const typedarray = new Uint8Array(arrayBuffer);
+  const pdf = await pdfjsLib.getDocument(typedarray).promise;
+  
+  const pdfViewer = document.getElementById('pdfViewer');
+  const thumbnailViewer = document.getElementById('thumbnailViewer');
+  const batchExplorer = document.getElementById('batchList');
+  pdfViewer.innerHTML = ""; // Clear previous content
+  thumbnailViewer.innerHTML = ""; // Clear previous thumbnails
+
+  const numPages = pdf.numPages; // Get total number of pages
+
+  // Loop through each page and render it
+  for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+    const page = await pdf.getPage(pageNum);
+    const viewport = page.getViewport({ scale: 1.5 });
+
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    const columnDiv = document.createElement('div');
+    columnDiv.className = 'pdf-page';
+    columnDiv.appendChild(canvas);
+    pdfViewer.appendChild(columnDiv);
+
+    // Render the page into the canvas context
+    await page.render({ canvasContext: context, viewport: viewport }).promise;
+
+    // Resize canvas to fit within the fixed height
+    canvas.style.height = '100%';
+    canvas.style.width = 'auto';
+
+    // Add to Batch Explorer
+    let listItem = document.createElement('li');
+    listItem.textContent = `Page ${pageNum}`;
+    batchExplorer.appendChild(listItem);
+
+    // Create Thumbnail for each page
+    let thumbCanvas = document.createElement('canvas');
+    thumbCanvas.width = 120;
+    thumbCanvas.height = (canvas.height / canvas.width) * 120;
+    let thumbContext = thumbCanvas.getContext('2d');
+    thumbContext.drawImage(canvas, 0, 0, thumbCanvas.width, thumbCanvas.height);
+
+    let thumbDiv = document.createElement('div');
+    thumbDiv.className = 'thumbnail';
+    thumbDiv.appendChild(thumbCanvas);
+    thumbnailViewer.appendChild(thumbDiv);
+
+    // Add click event to view page in overlay on canvas click
+    canvas.addEventListener('click', function() {
+      showOverlay(page, viewport);
+    });
+
+    // Add click event to Batch Explorer list item
+    listItem.addEventListener('click', function() {
+      showOverlay(page, viewport);
+    });
+  }
+}
+
+async function showOverlay(page, viewport) {
+  const overlayCanvas = document.getElementById('overlayCanvas');
+  overlayCanvas.width = viewport.width;
+  overlayCanvas.height = viewport.height;
+  const context = overlayCanvas.getContext('2d');
+  await page.render({ canvasContext: context, viewport: viewport }).promise;
+  document.getElementById('overlay').style.display = 'flex';
+}
+document.getElementById('closeOverlay').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'none';
+  });
+
+  document.getElementById('documentSelect').addEventListener('change', function() {
+    const selectedRoute = this.value;
+    if (selectedRoute) {
+      window.location.href = selectedRoute;
+    }
+  });
+ 
+</script>
 </body>
 </html>
 

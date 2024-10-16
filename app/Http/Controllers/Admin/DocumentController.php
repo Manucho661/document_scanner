@@ -10,7 +10,7 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $documents = Document::all(); // You can keep this for the index view
+        $documents = Document::all();
         return view('admin.documents.index', compact('documents'));
     }
 
@@ -20,30 +20,32 @@ class DocumentController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'document' => 'required|file|mimes:pdf,doc,docx|max:2048',
-            // 'description' => 'nullable|string|max:255',
-        ]);
+{
+    // Validate the input
+    $validated = $request->validate([
+        'document' => 'required|mimes:pdf,doc,docx,jpg,png|max:2048', // Ensure file type and size are validated
+        'title' => 'required|string|max:255', // Validate title is present
+    ]);
 
-        // Store the file
-        $path = $request->file('document')->store('documents', 'public');
-
-        Document::create([
-            'title' => $request->title,
-            'file_path' => $path,
-            'description' => $request->description,
-        ]);
-
-        return redirect()->route('home')->with('success', 'Document uploaded successfully.');
+    // Store the file and save the path
+    if ($request->hasFile('document')) {
+        $path = $request->file('document')->store('documents', 'public'); // Store file in 'public' disk
+    } else {
+        return response()->json(['error' => 'File upload failed'], 422); // Handle no file uploaded
     }
+
+    // Save document details to the database
+    $document = Document::create([
+        'title' => $validated['title'],
+        'file_path' => $path,
+    ]);
+
+   return redirect()->route('home')->with('documentId', $document->id);
+}
 
     public function show($id)
     {
         $document = Document::findOrFail($id);
-        // return redirect()->route('home')->with(compact('document'));
-         return view('home', compact('document'));
-
+        return view('home', compact('document'));
     }
 }

@@ -308,7 +308,7 @@
     <select id="documentSelect" class="inputText">
       <option disabled selected>Select</option>
       @foreach ($documents as $document)
-        <option value="{{ route('showDocument', $document->id) }}">{{ $document->title }}</option>
+        <option value="{{ route('admin.documents.show', $document->id) }}">{{ $document->title }}</option>
       @endforeach
     </select>
   </div>
@@ -318,7 +318,7 @@
 <form action="{{route('admin.documents.store')}}" method="POST" enctype="multipart/form-data">
   @csrf
   <div class="tools-section">
-    <input type="file" name="document" id="document" accept=".pdf" required>
+    <input type="file" name="document" id="document" accept=".pdf" multiple required>
     <input type="text" class="inputtext" name="title" placeholder="Enter Title to Upload" required>
     <button type="submit" title="Upload">Upload</button>
   </div>
@@ -350,11 +350,10 @@
     {{-- <script> --}}
         {{-- const DocumentUrl = "{{ asset('storage/' . $Document->file_path) }}"; --}}
     {{-- </script> --}}
-@else
-    <script>
-        // console.log('No document available');
-        const DocumentUrl = "{{ asset('storage/' . $document->file_path) }}";
-    </script>
+@elseif($documents->isEmpty())
+<p>No documents available.</p>
+
+</ul>
 @endif
 <!-- JavaScript -->
 <script>
@@ -442,11 +441,12 @@ document.getElementById('closeOverlay').addEventListener('click', function() {
     document.getElementById('overlay').style.display = 'none';
   });
 
-  document.getElementById('documentSelect').addEventListener('change', function() {
+  document.getElementById('documentSelect').addEventListener('change', async function() {
     const selectedRoute = this.value;
     if (selectedRoute) {
-      window.location.href = selectedRoute;
+        await fetchDocument(selectedRoute);
     }
+
   });
  
 </script>

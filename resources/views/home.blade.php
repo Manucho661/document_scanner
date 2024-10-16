@@ -121,7 +121,7 @@
     }
     .thumbnailText{
       margin: 20px;
-     
+
     }
 
     .batch-explorer li {
@@ -151,17 +151,17 @@
     }
 
     .pdf-page {
-      flex: 1 1 30%;
-      margin: 10px;
-      padding: 15px;
-      background-color: #f9f9f9;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      height: 400px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      max-width: calc(33% - 20px);
+        flex: 1 1 22%;
+  margin: 10px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: calc(25% - 20px);
     }
 
     /* Overlay styling */
@@ -230,17 +230,17 @@
         flex-basis: 100%; /* Make the pages take up full width on smaller screens */
         max-width: 100%;
       }
-     
-    } 
+
+    }
     .tSection{
         margin: 10px;
-       
+
       }
       .inputtext{
         height: 30px;
         /* flex: 1; */
-    border-radius: none; 
-     border: none;  
+    border-radius: none;
+     border: none;
      outline: none;
     background: transparent;
     padding: 10px;
@@ -273,8 +273,35 @@
 }
 
 
+.pagination-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
-    </style>  
+.pagination-buttons button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination-buttons button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-buttons button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+
+
+    </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 </head>
@@ -333,11 +360,20 @@
       <li> Document Pages</li>
     </ul>
   </div>
-  
+
   <div id="pdfViewer">
     <!-- PDF pages will be rendered here -->
   </div>
+
 </div>
+{{-- <!-- Pagination controls for Next button -->
+ --}}
+
+ <div class="pagination-buttons">
+    <button id="prevButton" disabled>Previous</button>
+    <button id="nextButton">Next</button>
+  </div>
+
 
   <div class="thumbnailText">  <b> <i>  <p class="mx-6">Thumbnail</p> </i> </b></div>
 <div class="thumbnail-viewer" id="thumbnailViewer"></div>
@@ -357,98 +393,165 @@
 @endif
 <!-- JavaScript -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-  if (typeof DocumentUrl !== 'undefined') {
-    // Fetch and display the latest document
-    fetchDocument(DocumentUrl);
-  }
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof DocumentUrl !== 'undefined') {
+        fetchDocument(DocumentUrl);
+    }
 });
 
+let currentPageSet = 0;  // Tracks the current set of pages being displayed
+const pagesPerSet = 8;    // 2 rows of 4 pages = 8 pages per set
+let pdf = null;           // Global variable to store PDF document
+
 async function fetchDocument(url) {
-  const response = await fetch(url);
-  const arrayBuffer = await response.arrayBuffer();
-  const typedarray = new Uint8Array(arrayBuffer);
-  const pdf = await pdfjsLib.getDocument(typedarray).promise;
-  
-  const pdfViewer = document.getElementById('pdfViewer');
-  const thumbnailViewer = document.getElementById('thumbnailViewer');
-  const batchExplorer = document.getElementById('batchList');
-  pdfViewer.innerHTML = ""; // Clear previous content
-  thumbnailViewer.innerHTML = ""; // Clear previous thumbnails
+    const response = await fetch(url);
+    const arrayBuffer = await response.arrayBuffer();
+    const typedarray = new Uint8Array(arrayBuffer);
+    pdf = await pdfjsLib.getDocument(typedarray).promise; // Save the PDF globally
 
-  const numPages = pdf.numPages; // Get total number of pages
+    const batchExplorer = document.getElementById('batchList');
+    const numPages = pdf.numPages;  // Get total number of pages
+    const totalSets = Math.ceil(numPages / pagesPerSet); // Calculate how many sets we need
 
-  // Loop through each page and render it
-  for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-    const page = await pdf.getPage(pageNum);
-    const viewport = page.getViewport({ scale: 1.5 });
+    // Function to render a set of pages
+    async function renderPageSet(setNumber) {
+        const pdfViewer = document.getElementById('pdfViewer');
+        pdfViewer.innerHTML = "";  // Clear the PDF viewer for new set
+        batchExplorer.innerHTML = ""; // Clear batch explorer for new set
+        document.getElementById('thumbnailViewer').innerHTML = ""; // Clear thumbnails for new set
 
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
+        // Calculate start and end pages for this set
+        const startPage = setNumber * pagesPerSet + 1;
+        const endPage = Math.min(startPage + pagesPerSet - 1, numPages);
 
-    const columnDiv = document.createElement('div');
-    columnDiv.className = 'pdf-page';
-    columnDiv.appendChild(canvas);
-    pdfViewer.appendChild(columnDiv);
+        // Loop through each page in this set and render
+        for (let pageNum = startPage; pageNum <= endPage; pageNum++) {
+            const page = await pdf.getPage(pageNum);
+            const viewport = page.getViewport({ scale: 1.5 });
 
-    // Render the page into the canvas context
-    await page.render({ canvasContext: context, viewport: viewport }).promise;
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
 
-    // Resize canvas to fit within the fixed height
-    canvas.style.height = '100%';
-    canvas.style.width = 'auto';
+            const columnDiv = document.createElement('div');
+            columnDiv.className = 'pdf-page';
+            columnDiv.appendChild(canvas);
+            pdfViewer.appendChild(columnDiv);
 
-    // Add to Batch Explorer
-    let listItem = document.createElement('li');
-    listItem.textContent = `Page ${pageNum}`;
-    batchExplorer.appendChild(listItem);
+            // Render the page into the canvas context
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
 
-    // Create Thumbnail for each page
-    let thumbCanvas = document.createElement('canvas');
-    thumbCanvas.width = 120;
-    thumbCanvas.height = (canvas.height / canvas.width) * 120;
-    let thumbContext = thumbCanvas.getContext('2d');
-    thumbContext.drawImage(canvas, 0, 0, thumbCanvas.width, thumbCanvas.height);
+            // Resize canvas to fit within the fixed height
+            canvas.style.height = '100%';
+            canvas.style.width = 'auto';
 
-    let thumbDiv = document.createElement('div');
+            // Add to Batch Explorer
+            let listItem = document.createElement('li');
+            listItem.textContent = `Page ${pageNum}`;
+            batchExplorer.appendChild(listItem);
+
+            // Create Thumbnail for each page
+            await createThumbnail(page, pageNum); // Ensure we wait for thumbnails to render
+
+            // Add click event to view page in overlay on canvas click
+            canvas.addEventListener('click', function() {
+                showOverlay(page, viewport);
+            });
+
+            // Add click event to Batch Explorer list item
+            listItem.addEventListener('click', function() {
+                showOverlay(page, viewport);
+            });
+        }
+
+        // Update thumbnails after rendering pages
+        await renderThumbnails(startPage, endPage);
+    }
+
+    // Initial rendering of the first set
+    renderPageSet(currentPageSet);
+
+    // Update the buttons based on the current set
+    function updateButtons() {
+        document.getElementById('prevButton').disabled = currentPageSet === 0;
+        document.getElementById('nextButton').disabled = currentPageSet === totalSets - 1;
+    }
+
+    updateButtons();  // Initial button state
+
+    // Handle "Next" button click
+    document.getElementById('nextButton').addEventListener('click', function() {
+        if (currentPageSet < totalSets - 1) {
+            currentPageSet++;
+            renderPageSet(currentPageSet);
+            updateButtons();
+        }
+    });
+
+    // Handle "Previous" button click
+    document.getElementById('prevButton').addEventListener('click', function() {
+        if (currentPageSet > 0) {
+            currentPageSet--;
+            renderPageSet(currentPageSet);
+            updateButtons();
+        }
+    });
+}
+
+// Function to create a thumbnail for each page
+async function createThumbnail(page, pageNum) {
+    const thumbCanvas = document.createElement('canvas');
+    const thumbScale = 0.3; // Adjust thumbnail scale as necessary
+    thumbCanvas.width = 120; // Thumbnail width
+    thumbCanvas.height = 120 * (page.getViewport({ scale: thumbScale }).height / page.getViewport({ scale: thumbScale }).width); // Maintain aspect ratio
+
+    const thumbContext = thumbCanvas.getContext('2d');
+
+    // Render the thumbnail
+    const viewport = page.getViewport({ scale: thumbScale });
+    await page.render({ canvasContext: thumbContext, viewport: viewport }).promise;
+
+    const thumbDiv = document.createElement('div');
     thumbDiv.className = 'thumbnail';
     thumbDiv.appendChild(thumbCanvas);
-    thumbnailViewer.appendChild(thumbDiv);
+    document.getElementById('thumbnailViewer').appendChild(thumbDiv);
 
-    // Add click event to view page in overlay on canvas click
-    canvas.addEventListener('click', function() {
-      showOverlay(page, viewport);
+    // Add click event for thumbnail to view page in overlay
+    thumbDiv.addEventListener('click', function() {
+        showOverlay(page, viewport);
     });
-
-    // Add click event to Batch Explorer list item
-    listItem.addEventListener('click', function() {
-      showOverlay(page, viewport);
-    });
-  }
 }
 
+// Function to render thumbnails for the current page set
+async function renderThumbnails(startPage, endPage) {
+    // We clear the thumbnails here, but they will be created during page rendering
+    // Each page in this set has already created its thumbnail in createThumbnail()
+}
+
+// Function to show overlay for a page
 async function showOverlay(page, viewport) {
-  const overlayCanvas = document.getElementById('overlayCanvas');
-  overlayCanvas.width = viewport.width;
-  overlayCanvas.height = viewport.height;
-  const context = overlayCanvas.getContext('2d');
-  await page.render({ canvasContext: context, viewport: viewport }).promise;
-  document.getElementById('overlay').style.display = 'flex';
+    const overlayCanvas = document.getElementById('overlayCanvas');
+    overlayCanvas.width = viewport.width;
+    overlayCanvas.height = viewport.height;
+    const context = overlayCanvas.getContext('2d');
+    await page.render({ canvasContext: context, viewport: viewport }).promise;
+    document.getElementById('overlay').style.display = 'flex';
 }
+
 document.getElementById('closeOverlay').addEventListener('click', function() {
     document.getElementById('overlay').style.display = 'none';
-  });
+});
 
-  document.getElementById('documentSelect').addEventListener('change', async function() {
+document.getElementById('documentSelect').addEventListener('change', async function() {
     const selectedRoute = this.value;
     if (selectedRoute) {
         await fetchDocument(selectedRoute);
     }
+});
 
-  });
- 
+
 </script>
 </body>
 </html>

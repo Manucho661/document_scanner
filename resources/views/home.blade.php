@@ -311,7 +311,7 @@
       <li class="nav-item">File</li>
       <li class="nav-item">Batch</li>
       <li class="nav-item">View</li>
-      <li class="nav-item">Capture</li>
+      <li class="nav-item" id="captureButton">Capture</li>
       <li class="nav-item">Document</li>
       <li class="nav-item">Edit</li>
       <li class="nav-item">Tools</li>
@@ -342,7 +342,7 @@
 </div>
 
 <!-- Upload form -->
-<form action="{{route('admin.documents.store')}}" method="POST" enctype="multipart/form-data">
+<form id="uploadForm" action="{{route('admin.documents.store')}}" method="POST" enctype="multipart/form-data" style="display:none;">
   @csrf
   <div class="tools-section">
     <input type="file" name="document" id="document" accept=".pdf" multiple required>
@@ -350,6 +350,7 @@
     <button type="submit" title="Upload">Upload</button>
   </div>
 </form>
+
 
 
 
@@ -550,6 +551,23 @@ document.getElementById('documentSelect').addEventListener('change', async funct
         await fetchDocument(selectedRoute);
     }
 });
+
+//Capture functionality
+document.getElementById('captureButton').addEventListener('click', function() {
+    // Simulate file selection
+    document.getElementById('document').click(); 
+    document.getElementById('uploadForm').style.display = 'block'; 
+});
+
+// Add an event listener to the file input to handle file selection
+document.getElementById('document').addEventListener('change', function() {
+    // Get the file name
+    const fileName = this.files[0].name;
+
+    // Set the title input value to the file name (optional)
+    document.querySelector('input[name="title"]').value = fileName;
+});
+
 
 
 </script>
